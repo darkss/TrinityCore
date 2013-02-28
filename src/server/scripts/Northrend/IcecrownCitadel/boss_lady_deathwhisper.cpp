@@ -110,51 +110,51 @@ enum EventTypes
 {
     // Lady Deathwhisper
     EVENT_INTRO_2                   = 1,
-    EVENT_INTRO_3,
-    EVENT_INTRO_4,
-    EVENT_INTRO_5,
-    EVENT_INTRO_6,
-    EVENT_INTRO_7,
-    EVENT_BERSERK,
-    EVENT_DEATH_AND_DECAY,
-    EVENT_DOMINATE_MIND_H,
+    EVENT_INTRO_3                   = 2,
+    EVENT_INTRO_4                   = 3,
+    EVENT_INTRO_5                   = 4,
+    EVENT_INTRO_6                   = 5,
+    EVENT_INTRO_7                   = 6,
+    EVENT_BERSERK                   = 7,
+    EVENT_DEATH_AND_DECAY           = 8,
+    EVENT_DOMINATE_MIND_H           = 9,
 
     // Phase 1 only
-    EVENT_P1_SUMMON_WAVE,
-    EVENT_P1_SHADOW_BOLT,
-    EVENT_P1_EMPOWER_CULTIST,
-    EVENT_P1_REANIMATE_CULTIST,
+    EVENT_P1_SUMMON_WAVE            = 10,
+    EVENT_P1_SHADOW_BOLT            = 11,
+    EVENT_P1_EMPOWER_CULTIST        = 12,
+    EVENT_P1_REANIMATE_CULTIST      = 13,
 
     // Phase 2 only
-    EVENT_P2_SUMMON_WAVE,
-    EVENT_P2_FROSTBOLT,
-    EVENT_P2_FROSTBOLT_VOLLEY,
-    EVENT_P2_TOUCH_OF_INSIGNIFICANCE,
-    EVENT_P2_SUMMON_SHADE,
+    EVENT_P2_SUMMON_WAVE            = 14,
+    EVENT_P2_FROSTBOLT              = 15,
+    EVENT_P2_FROSTBOLT_VOLLEY       = 16,
+    EVENT_P2_TOUCH_OF_INSIGNIFICANCE = 17,
+    EVENT_P2_SUMMON_SHADE           = 18,
 
     // Shared adds events
-    EVENT_CULTIST_DARK_MARTYRDOM,
+    EVENT_CULTIST_DARK_MARTYRDOM    = 19,
 
     // Cult Fanatic
-    EVENT_FANATIC_NECROTIC_STRIKE,
-    EVENT_FANATIC_SHADOW_CLEAVE,
-    EVENT_FANATIC_VAMPIRIC_MIGHT,
+    EVENT_FANATIC_NECROTIC_STRIKE   = 20,
+    EVENT_FANATIC_SHADOW_CLEAVE     = 21,
+    EVENT_FANATIC_VAMPIRIC_MIGHT    = 22,
     EVENT_FANATIC_MARTYRDOM_DONE,
 
     // Cult Adherent
-    EVENT_ADHERENT_FROST_FEVER,
-    EVENT_ADHERENT_DEATHCHILL,
-    EVENT_ADHERENT_CURSE_OF_TORPOR,
-    EVENT_ADHERENT_SHORUD_OF_THE_OCCULT,
+    EVENT_ADHERENT_FROST_FEVER      = 23,
+    EVENT_ADHERENT_DEATHCHILL       = 24,
+    EVENT_ADHERENT_CURSE_OF_TORPOR  = 25,
+    EVENT_ADHERENT_SHORUD_OF_THE_OCCULT = 26,
     EVENT_ADHERENT_MARTYRDOM_DONE,
 
     // Darnavan
-    EVENT_DARNAVAN_BLADESTORM,
-    EVENT_DARNAVAN_CHARGE,
-    EVENT_DARNAVAN_INTIMIDATING_SHOUT,
-    EVENT_DARNAVAN_MORTAL_STRIKE,
-    EVENT_DARNAVAN_SHATTERING_THROW,
-    EVENT_DARNAVAN_SUNDER_ARMOR
+    EVENT_DARNAVAN_BLADESTORM       = 27,
+    EVENT_DARNAVAN_CHARGE           = 28,
+    EVENT_DARNAVAN_INTIMIDATING_SHOUT  = 29,
+    EVENT_DARNAVAN_MORTAL_STRIKE    = 30,
+    EVENT_DARNAVAN_SHATTERING_THROW = 31,
+    EVENT_DARNAVAN_SUNDER_ARMOR     = 32
 };
 
 enum Phases
@@ -162,10 +162,7 @@ enum Phases
     PHASE_ALL       = 0,
     PHASE_INTRO     = 1,
     PHASE_ONE       = 2,
-    PHASE_TWO       = 3,
-
-    PHASE_INTRO_MASK    = 1 << PHASE_INTRO,
-    PHASE_ONE_MASK      = 1 << PHASE_ONE
+    PHASE_TWO       = 3
 };
 
 enum DeprogrammingData
@@ -261,7 +258,7 @@ class boss_lady_deathwhisper : public CreatureScript
                 if (me->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE))
                     return;
 
-                if (victim && me->Attack(victim, true) && !(events.GetPhaseMask() & PHASE_ONE_MASK))
+                if (victim && me->Attack(victim, true) && !(events.IsInPhase(PHASE_ONE)))
                     me->GetMotionMaster()->MoveChase(victim);
             }
 
@@ -360,7 +357,7 @@ class boss_lady_deathwhisper : public CreatureScript
             void DamageTaken(Unit* /*damageDealer*/, uint32& damage)
             {
                 // phase transition
-                if (events.GetPhaseMask() & PHASE_ONE_MASK && damage > me->GetPower(POWER_MANA))
+                if (events.IsInPhase(PHASE_ONE) && damage > me->GetPower(POWER_MANA))
                 {
                     Talk(SAY_PHASE_2);
                     Talk(EMOTE_PHASE_2);
@@ -404,12 +401,12 @@ class boss_lady_deathwhisper : public CreatureScript
 
             void UpdateAI(uint32 diff)
             {
-                if ((!UpdateVictim() && !(events.GetPhaseMask() & PHASE_INTRO_MASK)) || !CheckInRoom())
+                if ((!UpdateVictim() && !(events.IsInPhase(PHASE_INTRO)) || !CheckInRoom()))
                     return;
 
                 events.Update(diff);
 
-                if (me->HasUnitState(UNIT_STATE_CASTING) && !(events.GetPhaseMask() & PHASE_INTRO_MASK))
+                if (me->HasUnitState(UNIT_STATE_CASTING) && !(events.IsInPhase(PHASE_INTRO)))
                     return;
 
                 while (uint32 eventId = events.ExecuteEvent())
