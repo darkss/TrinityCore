@@ -136,7 +136,7 @@ void InstanceSaveManager::DeleteInstanceFromDB(uint32 instanceid)
     stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_GROUP_INSTANCE_BY_INSTANCE);
     stmt->setUInt32(0, instanceid);
     trans->Append(stmt);
-
+    sLog->outError(LOG_FILTER_GENERAL, "InstanceSaveManager::DeleteInstanceFromDB deleting instance = %d", instanceid);
     CharacterDatabase.CommitTransaction(trans);
     // Respawn times should be deleted only when the map gets unloaded
 }
@@ -153,7 +153,7 @@ void InstanceSaveManager::RemoveInstanceSave(uint32 InstanceId)
 
             stmt->setUInt32(0, uint32(resettime));
             stmt->setUInt32(1, InstanceId);
-
+            sLog->outError(LOG_FILTER_GENERAL, "InstanceSaveManager::RemoveInstanceSave: Updating InstanceId = %d, resettime = %d", InstanceId, resettime);
             CharacterDatabase.Execute(stmt);
         }
 
@@ -201,6 +201,8 @@ void InstanceSave::SaveToDB()
     stmt->setUInt8(3, uint8(GetDifficulty()));
     stmt->setUInt32(4, completedEncounters);
     stmt->setString(5, data);
+
+    sLog->outError(LOG_FILTER_GENERAL, "InstanceSaveManager::SaveToDB: Saving id = %d, map = %d, resettime = %d", m_instanceid, GetMapId(), uint32(GetResetTimeForDB()));
     CharacterDatabase.Execute(stmt);
 }
 
