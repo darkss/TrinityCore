@@ -460,10 +460,10 @@ class AreaTrigger_at_azure_dragons_sanctuary : public AreaTriggerScript
 enum FrostgripsHollow
 {
     QUEST_THE_LONESOME_WATCHER      = 12877,
-    
+
     NPC_STORMFORGED_MONITOR         = 29862,
     NPC_STORMFORGED_ERADICTOR       = 29861,
-    
+
     TYPE_WAYPOINT                   = 0,
     DATA_START                      = 0
 };
@@ -488,11 +488,11 @@ public:
         Creature* stormforgedMonitor = Creature::GetCreature(*player, stormforgedMonitorGUID);
         if (stormforgedMonitor)
             return false;
-        
+
         Creature* stormforgedEradictor = Creature::GetCreature(*player, stormforgedEradictorGUID);
         if (stormforgedEradictor)
             return false;
-        
+
         if ((stormforgedMonitor = player->SummonCreature(NPC_STORMFORGED_MONITOR, stormforgedMonitorPosition, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 60000)))
         {
             stormforgedMonitorGUID = stormforgedMonitor->GetGUID();
@@ -507,7 +507,7 @@ public:
             stormforgedEradictorGUID = stormforgedEradictor->GetGUID();
             stormforgedEradictor->GetMotionMaster()->MovePath(NPC_STORMFORGED_ERADICTOR * 100, false);
         }
-        
+
         return true;
     }
 
