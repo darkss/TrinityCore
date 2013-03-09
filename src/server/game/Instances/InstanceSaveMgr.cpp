@@ -551,6 +551,7 @@ void InstanceSaveManager::_ResetInstance(uint32 mapid, uint32 instanceId)
         Map::DeleteRespawnTimesInDB(mapid, instanceId);
 
     // Free up the instance id and allow it to be reused
+    sLog->outError(LOG_FILTER_GENERAL, "InstanceSaveManager::ResetOrWarnAll: Freeing up ID %u", instanceId);
     sMapMgr->FreeInstanceId(instanceId);
 }
 
