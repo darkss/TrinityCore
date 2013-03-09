@@ -19,10 +19,6 @@
 SDName: Boss Malygos
 Script Data End */
 
-/* Add support for using Exit Portal while on drake and find why at 100 Z ground
-   falling creature/player bodies aren't stopped (when players reach it should die).
-   Also there is release button unavailability sometimes not sure why. */
-
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "SpellScript.h"
@@ -355,8 +351,8 @@ public:
 
             _summonDeaths = 0;
             _preparingPulsesChecker = 0;
-            _arcaneOverloadGUID = NULL;
-            _lastHitByArcaneBarrageGUID = NULL;
+            _arcaneOverloadGUID = 0;
+            _lastHitByArcaneBarrageGUID = 0;
             memset(_surgeTargetGUID, 0, sizeof(_surgeTargetGUID));
 
             _killSpamFilter = false;
@@ -2050,7 +2046,7 @@ class spell_scion_of_eternity_arcane_barrage : public SpellScriptLoader
                 // in longer terms this means if spell picks target X then 2nd cast of this spell will pick smth else
                 // and if 3rd picks X again 4th will pick smth else (by not limiting the cast to certain caster).
                 if (targets.size() > 1)
-                    if (malygos && malygos->AI()->GetGUID(DATA_LAST_TARGET_BARRAGE_GUID) != NULL)
+                    if (malygos && malygos->AI()->GetGUID(DATA_LAST_TARGET_BARRAGE_GUID))
                         targets.remove_if(Trinity::ObjectGUIDCheck(malygos->AI()->GetGUID(DATA_LAST_TARGET_BARRAGE_GUID)));
 
                 // Remove players not on Hover Disk from second list
@@ -2174,9 +2170,7 @@ class spell_alexstrasza_bunny_destroy_platform_boom_visual : public SpellScriptL
             void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (Creature* target = GetHitCreature())
-                {
                     target->CastSpell(target, SPELL_DESTROY_PLATFORM_EVENT);
-                }
             }
 
             void Register()
@@ -2215,14 +2209,13 @@ class spell_alexstrasza_bunny_destroy_platform_event : public SpellScriptLoader
 
             void HandleScript(SpellEffIndex /*effIndex*/)
             {
-                Creature* caster = GetCaster()->ToCreature();
-                caster->CastSpell(caster, SPELL_SUMMON_RED_DRAGON_BUDDY_F_CAST, true);
+                GetCaster()->CastSpell((Unit*)NULL, SPELL_SUMMON_RED_DRAGON_BUDDY_F_CAST);
             }
 
             void Register()
             {
                 OnEffectHit += SpellEffectFn(spell_alexstrasza_bunny_destroy_platform_event_SpellScript::HandleSendEvent, EFFECT_0, SPELL_EFFECT_SEND_EVENT);
-                OnEffectHitTarget += SpellEffectFn(spell_alexstrasza_bunny_destroy_platform_event_SpellScript::HandleScript, EFFECT_2, SPELL_EFFECT_SCRIPT_EFFECT);
+                OnEffectHit += SpellEffectFn(spell_alexstrasza_bunny_destroy_platform_event_SpellScript::HandleScript, EFFECT_2, SPELL_EFFECT_SCRIPT_EFFECT);
             }
         };
 

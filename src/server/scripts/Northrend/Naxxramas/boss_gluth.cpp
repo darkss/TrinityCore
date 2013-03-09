@@ -77,7 +77,7 @@ public:
                 SetGazeOn(who);
                 Talk(EMOTE_ZOMBIE);
                 me->Kill(who);
-                me->ModifyHealth(int32(me->CountPctFromMaxHealth(5)));                
+                me->ModifyHealth(int32(me->CountPctFromMaxHealth(5)));
             }
             else
                 BossAI::MoveInLineOfSight(who);
