@@ -308,7 +308,7 @@ public:
                             Phase = NORMAL;
                             break;
                     }
-                } 
+                }
                 else
                     uiIntroTimer -= uiDiff;
                 return;
@@ -354,7 +354,7 @@ public:
                         }
                         else
                             uiPlagueStrikeTimer -= uiDiff;
-                    
+
                         if (uiObliterateTimer <= uiDiff)
                         {
                             DoCastVictim(DUNGEON_MODE(SPELL_OBLITERATE, SPELL_OBLITERATE_H));
@@ -362,7 +362,7 @@ public:
                         }
                         else
                             uiObliterateTimer -= uiDiff;
-                    
+
                         if (uiIcyTouchTimer <= uiDiff)
                         {
                             DoCastVictim(DUNGEON_MODE(SPELL_ICY_TOUCH, SPELL_ICY_TOUCH_H));
@@ -392,7 +392,7 @@ public:
                             }
                             else
                                 uiDeathArmyCheckTimer -= uiDiff;
-                    
+
                         if (uiDesecrationTimer <= uiDiff)
                         {
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
@@ -405,7 +405,7 @@ public:
                         }
                         else
                             uiDesecrationTimer -= uiDiff;
-                        
+
                         if (uiGhoulExplodeTimer <= uiDiff)
                         {
                             if (!SummonList.empty())
@@ -436,7 +436,7 @@ public:
                         }
                         else
                             uiGhoulExplodeTimer -= uiDiff;
-                    
+
                         if (uiPlagueStrike1Timer <= uiDiff)
                         {
                             DoCastVictim(SPELL_PLAGUE_STRIKE);
@@ -444,7 +444,7 @@ public:
                         }
                         else
                             uiPlagueStrike1Timer -= uiDiff;
-                    
+
                         if (uiObliterate1Timer <= uiDiff)
                         {
                             DoCastVictim(SPELL_OBLITERATE);
@@ -452,7 +452,7 @@ public:
                         }
                         else
                             uiObliterate1Timer -= uiDiff;
-                    
+
                         if (uiIcyTouch1Timer <= uiDiff)
                         {
                             DoCastVictim(SPELL_ICY_TOUCH);
@@ -460,7 +460,7 @@ public:
                         }
                         else
                             uiIcyTouch1Timer -= uiDiff;
-                    
+
                         if (uiDeathRespiteTimer <= uiDiff)
                         {
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
@@ -486,7 +486,7 @@ public:
                         }
                         else
                             uiDeathBiteTimer -= uiDiff;
-                
+
                         if (uiMarkedDeathTimer <= uiDiff)
                         {
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
@@ -741,8 +741,8 @@ public:
                 case 6:
                 {
                     me->SetSpeed(MOVE_FLIGHT, 2.0f);
-                    Creature* pHighlord = Unit::GetCreature(*me, instance->GetData64(DATA_HIGHLORD));
-                    pHighlord->AI()->Talk(SAY_INTRO_2);
+                    if (Creature* pHighlord = Unit::GetCreature(*me, instance->GetData64(DATA_HIGHLORD)))
+                        pHighlord->AI()->Talk(SAY_INTRO_2);
                     break;
                 }
                 case 7:
