@@ -606,7 +606,7 @@ void Channel::Say(uint64 guid, std::string const& what, uint32 lang)
         chatTag = player->GetChatTag();
 
     // TODO: Add proper RBAC check
-    if (sWorld->getBoolConfig(CONFIG_ALLOW_TWO_SIDE_INTERACTION_CHANNEL) || AccountMgr::IsGMAccount)
+    if (sWorld->getBoolConfig(CONFIG_ALLOW_TWO_SIDE_INTERACTION_CHANNEL))
         lang = LANG_UNIVERSAL;
 
     if (!IsOn(guid))
@@ -622,27 +622,26 @@ void Channel::Say(uint64 guid, std::string const& what, uint32 lang)
         WorldPacket data;
         MakeMuted(&data);
         SendToOne(&data, guid);
+        return;
     }
-    else
-    {
-        WorldPacket data(SMSG_MESSAGECHAT, 1 + 4 + 8 + 4 + _name.size() + 8 + 4 + what.size() + 1);
-        data << uint8(CHAT_MSG_CHANNEL);
-        data << uint32(lang);
-        data << uint64(guid);
-        data << uint32(0);
-        data << _name;
-        data << uint64(guid);
-        data << uint32(what.size() + 1);
-        data << what;
-        data << uint8(chatTag);
 
-        SendToAll(&data, !playersStore[guid].IsModerator() ? guid : false);
+    WorldPacket data(SMSG_MESSAGECHAT, 1 + 4 + 8 + 4 + _name.size() + 8 + 4 + what.size() + 1);
+    data << uint8(CHAT_MSG_CHANNEL);
+    data << uint32(lang);
+    data << uint64(guid);
+    data << uint32(0);
+    data << _name;
+    data << uint64(guid);
+    data << uint32(what.size() + 1);
+    data << what;
+    data << uint8(chatTag);
 
-        char msg[256];
-        if (Player* player = ObjectAccessor::FindPlayer(guid))
-            snprintf((char*)msg, 256, "MSG %s %s %s\n", GetName().c_str(), player->GetName().c_str(), what.c_str());
-        RASocket::raprint(msg);
-    }
+    SendToAll(&data, !playersStore[guid].IsModerator() ? guid : false);
+
+    char msg[256];
+    if (Player* player = ObjectAccessor::FindPlayer(guid))
+        snprintf((char*)msg, 256, "MSG %s %s %s\n", GetName().c_str(), player->GetName().c_str(), what.c_str());
+    RASocket::raprint(msg);
 }
 
 void Channel::Invite(Player const* player, std::string const& newname)
