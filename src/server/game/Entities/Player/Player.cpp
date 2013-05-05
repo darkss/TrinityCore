@@ -5031,7 +5031,7 @@ void Player::DeleteFromDB(uint64 playerguid, uint32 accountId, bool updateRealmC
     if (updateRealmChars)
         sWorld->UpdateRealmCharCount(accountId);
 
-    sWorld->DeleteCharacterNameData(GUID_LOPART(guid));
+    sWorld->DeleteCharacterNameData(guid);
 }
 
 /**
@@ -7048,14 +7048,11 @@ void Player::RewardReputation(Unit* victim, float rate)
     if (GetChampioningFaction())
     {
         // support for: Championing - http://www.wowwiki.com/Championing
-
         Map const* map = GetMap();
         if (map && map->IsNonRaidDungeon())
-        {
-            if (AccessRequirement const* accessRequirement = sObjectMgr->GetAccessRequirement(map->GetId(), map->GetDifficulty()))
-                if (accessRequirement->levelMin == 80)
+            if (LFGDungeonEntry const* dungeon = GetLFGDungeon(map->GetId(), map->GetDifficulty()))
+                if (dungeon->reclevel == 80)
                     ChampioningFaction = GetChampioningFaction();
-        }
     }
 
     uint32 team = GetTeam();
