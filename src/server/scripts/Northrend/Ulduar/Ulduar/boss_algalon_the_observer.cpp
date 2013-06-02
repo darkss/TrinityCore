@@ -1427,9 +1427,7 @@ void AddSC_boss_algalon_the_observer()
     new npc_collapsing_star();
     new npc_brann_bronzebeard_algalon();
     new npc_algalon_asteroid_target();
-
     new go_celestial_planetarium_access();
-
     new spell_algalon_phase_punch();
     new spell_algalon_arcane_barrage();
     new spell_algalon_trigger_3_adds();
@@ -1439,6 +1437,5 @@ void AddSC_boss_algalon_the_observer()
     new spell_algalon_cosmic_smash();
     new spell_algalon_cosmic_smash_damage();
     new spell_algalon_supermassive_fail();
-
     new achievement_he_feeds_on_your_tears();
 }

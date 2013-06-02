@@ -1217,6 +1217,7 @@ class achievement_quick_shave : public AchievementCriteriaScript
 void AddSC_boss_razorscale()
 {
     new boss_razorscale_controller();
+    new go_razorscale_harpoon();
     new boss_razorscale();
     new npc_expedition_commander();
     new npc_mole_machine_trigger();
@@ -1224,12 +1225,8 @@ void AddSC_boss_razorscale()
     new npc_darkrune_watcher();
     new npc_darkrune_guardian();
     new npc_darkrune_sentinel();
-
-    new go_razorscale_harpoon();
-
     new spell_razorscale_devouring_flame();
     new spell_razorscale_flame_breath();
-
     new achievement_iron_dwarf_medium_rare();
     new achievement_quick_shave();
 }

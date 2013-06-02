@@ -748,14 +748,14 @@ class boss_flame_leviathan : public CreatureScript
         }
 };
 
-class npc_flame_leviathan_defense_cannon : public CreatureScript
+class boss_flame_leviathan_defense_cannon : public CreatureScript
 {
     public:
-        npc_flame_leviathan_defense_cannon() : CreatureScript("npc_flame_leviathan_defense_cannon") {}
+        boss_flame_leviathan_defense_cannon() : CreatureScript("boss_flame_leviathan_defense_cannon") {}
 
-        struct npc_flame_leviathan_defense_cannonAI : public ScriptedAI
+        struct boss_flame_leviathan_defense_cannonAI : public ScriptedAI
         {
-            npc_flame_leviathan_defense_cannonAI(Creature* creature) : ScriptedAI(creature) {}
+            boss_flame_leviathan_defense_cannonAI(Creature* creature) : ScriptedAI(creature) {}
 
             void InitializeAI()
             {
@@ -803,18 +803,18 @@ class npc_flame_leviathan_defense_cannon : public CreatureScript
 
         CreatureAI* GetAI(Creature* creature) const
         {
-            return new npc_flame_leviathan_defense_cannonAI(creature);
+            return new boss_flame_leviathan_defense_cannonAI(creature);
         }
 };
 
-class npc_flame_leviathan_seat : public CreatureScript
+class boss_flame_leviathan_seat : public CreatureScript
 {
     public:
-        npc_flame_leviathan_seat() : CreatureScript("npc_flame_leviathan_seat") {}
+        boss_flame_leviathan_seat() : CreatureScript("boss_flame_leviathan_seat") { }
 
-        struct npc_flame_leviathan_seatAI : public ScriptedAI
+        struct boss_flame_leviathan_seatAI : public ScriptedAI
         {
-            npc_flame_leviathan_seatAI(Creature* creature) : ScriptedAI(creature), _vehicle(creature->GetVehicleKit())
+            boss_flame_leviathan_seatAI(Creature* creature) : ScriptedAI(creature), _vehicle(creature->GetVehicleKit())
             {
                 ASSERT(_vehicle);
             }
@@ -907,18 +907,18 @@ class npc_flame_leviathan_seat : public CreatureScript
 
         CreatureAI* GetAI(Creature* creature) const
         {
-            return new npc_flame_leviathan_seatAI(creature);
+            return new boss_flame_leviathan_seatAI(creature);
         }
 };
 
-class npc_flame_leviathan_defense_turret : public CreatureScript
+class boss_flame_leviathan_defense_turret : public CreatureScript
 {
     public:
-        npc_flame_leviathan_defense_turret() : CreatureScript("npc_flame_leviathan_defense_turret") {}
+        boss_flame_leviathan_defense_turret() : CreatureScript("boss_flame_leviathan_defense_turret") {}
 
-        struct npc_flame_leviathan_defense_turretAI : public TurretAI
+        struct boss_flame_leviathan_defense_turretAI : public TurretAI
         {
-            npc_flame_leviathan_defense_turretAI(Creature* creature) : TurretAI(creature) {}
+            boss_flame_leviathan_defense_turretAI(Creature* creature) : TurretAI(creature) {}
 
             void Reset()
             {
@@ -947,18 +947,18 @@ class npc_flame_leviathan_defense_turret : public CreatureScript
 
         CreatureAI* GetAI(Creature* creature) const
         {
-            return new npc_flame_leviathan_defense_turretAI(creature);
+            return new boss_flame_leviathan_defense_turretAI(creature);
         }
 };
 
-class npc_flame_leviathan_overload_device : public CreatureScript
+class boss_flame_leviathan_overload_device : public CreatureScript
 {
     public:
-        npc_flame_leviathan_overload_device() : CreatureScript("npc_flame_leviathan_overload_device") {}
+        boss_flame_leviathan_overload_device() : CreatureScript("boss_flame_leviathan_overload_device") { }
 
-        struct npc_flame_leviathan_overload_deviceAI : public PassiveAI
+        struct boss_flame_leviathan_overload_deviceAI : public PassiveAI
         {
-            npc_flame_leviathan_overload_deviceAI(Creature* creature) : PassiveAI(creature) {}
+            boss_flame_leviathan_overload_deviceAI(Creature* creature) : PassiveAI(creature) {}
 
             void InitializeAI()
             {
@@ -992,18 +992,18 @@ class npc_flame_leviathan_overload_device : public CreatureScript
 
         CreatureAI* GetAI(Creature* creature) const
         {
-            return new npc_flame_leviathan_overload_deviceAI(creature);
+            return new boss_flame_leviathan_overload_deviceAI(creature);
         }
 };
 
-class npc_flame_leviathan_safety_container : public CreatureScript
+class boss_flame_leviathan_safety_container : public CreatureScript
 {
     public:
-        npc_flame_leviathan_safety_container() : CreatureScript("npc_flame_leviathan_safety_container") {}
+        boss_flame_leviathan_safety_container() : CreatureScript("boss_flame_leviathan_safety_container") { }
 
-        struct npc_flame_leviathan_safety_containerAI : public PassiveAI
+        struct boss_flame_leviathan_safety_containerAI : public PassiveAI
         {
-            npc_flame_leviathan_safety_containerAI(Creature* creature) : PassiveAI(creature) {}
+            boss_flame_leviathan_safety_containerAI(Creature* creature) : PassiveAI(creature) {}
 
             void JustDied(Unit* /*killer*/)
             {
@@ -1019,7 +1019,7 @@ class npc_flame_leviathan_safety_container : public CreatureScript
 
         CreatureAI* GetAI(Creature* creature) const
         {
-            return new npc_flame_leviathan_safety_containerAI(creature);
+            return new boss_flame_leviathan_safety_containerAI(creature);
         }
 };
 
@@ -1368,7 +1368,7 @@ class npc_mimirons_inferno : public CreatureScript
                     {
                         if (Creature* trigger = DoSummonFlyer(NPC_MIMIRON_TARGET_BEACON, me, 30.0f, 0, 2*IN_MILLISECONDS, TEMPSUMMON_TIMED_DESPAWN))
                         {
-                            // TODO: Check if this works properly, the spell's target selection is somehow curious oÔ
+                            // TODO: Check if this works properly, the spell's target selection is somehow curious o?
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f))
                                 trigger->CastSpell(target, SPELL_MIMIRONS_INFERNO, true);
                             _infernoTimer = 2*IN_MILLISECONDS;
@@ -2671,11 +2671,11 @@ class spell_leviathan_tower_buff : public SpellScriptLoader
 void AddSC_boss_flame_leviathan()
 {
     new boss_flame_leviathan();                     // 10: 33113, 25: 34003 ; difficulty entry settled properly
-    new npc_flame_leviathan_seat();                 // 33114
-    new npc_flame_leviathan_defense_turret();       // 33142
-    new npc_flame_leviathan_defense_cannon();       // 33139
-    new npc_flame_leviathan_overload_device();      // 33143
-    new npc_flame_leviathan_safety_container();     // 33218
+    new boss_flame_leviathan_seat();                 // 33114
+    new boss_flame_leviathan_defense_turret();       // 33142
+    new boss_flame_leviathan_defense_cannon();       // 33139
+    new boss_flame_leviathan_overload_device();      // 33143
+    new boss_flame_leviathan_safety_container();     // 33218
     new npc_mechanolift();                          // 33214
     new npc_liquid_pyrite();                        // 33189
     new npc_pool_of_tar();                          // 33090
