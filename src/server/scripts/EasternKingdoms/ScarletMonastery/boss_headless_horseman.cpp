@@ -150,8 +150,8 @@ class boss_headless_horseman : public CreatureScript
                     me->RemoveUnitMovementFlag(MOVEMENTFLAG_DISABLE_GRAVITY);
                     DoZoneInCombat(me, 100.0f);
 
-                    if (me->getVictim())
-                        me->GetMotionMaster()->MoveChase(me->getVictim());
+                    if (me->GetVictim())
+                        me->GetMotionMaster()->MoveChase(me->GetVictim());
                 }
             }
 
@@ -184,7 +184,7 @@ class boss_headless_horseman : public CreatureScript
                 Map::PlayerList const& players = me->GetMap()->GetPlayers();
                 if (!players.isEmpty())
                     for (Map::PlayerList::const_iterator i = players.begin(); i != players.end(); ++i)
-                        if (Player* player = i->getSource())
+                        if (Player* player = i->GetSource())
                             if (player->IsAtGroupRewardDistance(me))
                                 sLFGMgr->FinishDungeon(player->GetGUID(), 285);
 

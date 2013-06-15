@@ -707,12 +707,12 @@ class npc_announcer_toc5 : public CreatureScript
 
             for (Map::PlayerList::const_iterator i = PlList.begin(); i != PlList.end(); ++i)
             {
-                if(Player* player = i->getSource())
+                if(Player* player = i->GetSource())
                 {
-                    if(player->isGameMaster())
+                    if(player->IsGameMaster())
                        continue;
 
-                    if(player->isAlive())
+                    if(player->IsAlive())
                     {
                        pTemp->SetHomePosition(me->GetPositionX(),me->GetPositionY(),me->GetPositionZ(),me->GetOrientation());
                        pTemp->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);

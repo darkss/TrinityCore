@@ -67,7 +67,7 @@ public:
 
     bool OnGossipHello(Player* player, Creature* creature)
     {
-        if (creature->isQuestGiver())
+        if (creature->IsQuestGiver())
             player->PrepareQuestMenu(creature->GetGUID());
 
         if (player->GetQuestStatus(QUEST_THE_STORY_THUS_FAR) == QUEST_STATUS_INCOMPLETE)
@@ -289,13 +289,13 @@ public:
                 return;
 
             // charge after moving away from the victim
-            if (me->isInCombat() && me->getVictim() && bCharge)
+            if (me->IsInCombat() && me->GetVictim() && bCharge)
             {
                 me->GetMotionMaster()->Clear();
                 // but only after rangecheck
-                if (me->GetDistance(me->getVictim()) > 5.0f && me->GetDistance(me->getVictim()) <= 30.0f)
+                if (me->GetDistance(me->GetVictim()) > 5.0f && me->GetDistance(me->GetVictim()) <= 30.0f)
                     DoCastVictim(SPELL_CHARGE_COMBAT);
-                me->GetMotionMaster()->MoveChase(me->getVictim());
+                me->GetMotionMaster()->MoveChase(me->GetVictim());
                 uiChargeTimer = 7000;
                 bCharge = false;
             }
@@ -333,12 +333,12 @@ public:
             if (uiChargeTimer <= uiDiff && !bCharge)
             {
                 // directly charge if range is ok
-                if (me->GetDistance(me->getVictim()) > 5.0f && me->GetDistance(me->getVictim()) <= 30.0f)
+                if (me->GetDistance(me->GetVictim()) > 5.0f && me->GetDistance(me->GetVictim()) <= 30.0f)
                     DoCastVictim(SPELL_CHARGE_COMBAT);
                 else
                 {
                     // move away for charge...
-                    float angle = me->GetAngle(me->getVictim());
+                    float angle = me->GetAngle(me->GetVictim());
                     float x = me->GetPositionX() + 20.0f * cos(angle);
                     float y = me->GetPositionY() + 20.0f * sin(angle);
                     me->GetMotionMaster()->MovePoint(0, x, y, me->GetPositionZ());
@@ -356,7 +356,7 @@ public:
                 uiShieldBreakerTimer = 10000;
             } else uiShieldBreakerTimer -= uiDiff;
 
-            if (me->IsWithinMeleeRange(me->getVictim()))
+            if (me->IsWithinMeleeRange(me->GetVictim()))
             {
                 if (uiThrustTimer <= uiDiff)
                 {

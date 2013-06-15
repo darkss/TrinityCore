@@ -290,7 +290,7 @@ class boss_razorscale_controller : public CreatureScript
 
             void UpdateAI(uint32 const Diff)
             {
-                if (me->isInCombat() && instance && instance->GetBossState(BOSS_RAZORSCALE) != IN_PROGRESS)
+                if (me->IsInCombat() && instance && instance->GetBossState(BOSS_RAZORSCALE) != IN_PROGRESS)
                     EnterEvadeMode();
 
                 events.Update(Diff);
@@ -561,7 +561,7 @@ class boss_razorscale : public CreatureScript
                                 events.CancelEvent(EVENT_BUFFET);
                                 return;
                             case EVENT_FUSE:
-                                DoCast(me->getVictim(), SPELL_FUSEARMOR);
+                                DoCast(me->GetVictim(), SPELL_FUSEARMOR);
                                 events.ScheduleEvent(EVENT_FUSE, 10*IN_MILLISECONDS, 0, PHASE_PERMAGROUND);
                                 return;
                             case EVENT_BERSERK:
@@ -976,7 +976,7 @@ class npc_darkrune_watcher : public CreatureScript
                     switch (eventId)
                     {
                         case EVENT_CHAIN_LIGHTNING:                            
-                            DoCast(me->getVictim(), SPELL_CHAIN_LIGHTNING);
+                            DoCast(me->GetVictim(), SPELL_CHAIN_LIGHTNING);
                             _events.ScheduleEvent(EVENT_CHAIN_LIGHTNING, urand(10*IN_MILLISECONDS, 15*IN_MILLISECONDS));
                             return;
                         case EVENT_LIGHTNING_BOLT:
@@ -1037,7 +1037,7 @@ class npc_darkrune_guardian : public CreatureScript
 
                 if (_stormTimer <= diff)
                 {
-                    DoCast(me->getVictim(), SPELL_STORMSTRIKE);
+                    DoCast(me->GetVictim(), SPELL_STORMSTRIKE);
                     _stormTimer = urand(4*IN_MILLISECONDS, 8*IN_MILLISECONDS);
                 }
                 else
@@ -1092,7 +1092,7 @@ class npc_darkrune_sentinel : public CreatureScript
                     switch (eventId)
                     {   
                         case EVENT_HEROIC_STRIKE:
-                            DoCast(me->getVictim(), SPELL_HEROIC_STRIKE);
+                            DoCast(me->GetVictim(), SPELL_HEROIC_STRIKE);
                             _events.ScheduleEvent(EVENT_HEROIC_STRIKE, urand(4*IN_MILLISECONDS, 6*IN_MILLISECONDS));
                             return;
                         case EVENT_WHIRLWIND:

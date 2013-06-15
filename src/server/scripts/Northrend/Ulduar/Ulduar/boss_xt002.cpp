@@ -593,7 +593,7 @@ class mob_scrapbot : public CreatureScript
                 {
                     if (Creature* xt002 = ObjectAccessor::GetCreature(*me, _instance->GetData64(BOSS_XT002)))
                     {
-                        if (!_casted && xt002->isAlive())
+                        if (!_casted && xt002->IsAlive())
                             if (me->IsWithinMeleeRange(xt002))
                             {
                                 _casted = true;
@@ -654,7 +654,7 @@ class mob_pummeller : public CreatureScript
                 if (!UpdateVictim())
                     return;
 
-                if (me->IsWithinMeleeRange(me->getVictim()))
+                if (me->IsWithinMeleeRange(me->GetVictim()))
                 {
                     _events.Update(diff);
                     while (uint32 eventId = _events.ExecuteEvent())
@@ -662,15 +662,15 @@ class mob_pummeller : public CreatureScript
                         switch (eventId)
                         {
                             case EVENT_ARCING_SMASH:
-                                DoCast(me->getVictim(), SPELL_ARCING_SMASH);
+                                DoCast(me->GetVictim(), SPELL_ARCING_SMASH);
                                 _events.ScheduleEvent(EVENT_ARCING_SMASH, 7*IN_MILLISECONDS);
                                 return;
                             case EVENT_TRAMPLE:
-                                DoCast(me->getVictim(), SPELL_TRAMPLE);
+                                DoCast(me->GetVictim(), SPELL_TRAMPLE);
                                 _events.ScheduleEvent(EVENT_TRAMPLE, 2*IN_MILLISECONDS);
                                 return;
                             case EVENT_UPPERCUT:
-                                DoCast(me->getVictim(), SPELL_UPPERCUT);
+                                DoCast(me->GetVictim(), SPELL_UPPERCUT);
                                 _events.ScheduleEvent(EVENT_UPPERCUT, 7*IN_MILLISECONDS);
                                 return;
                             default:
@@ -810,9 +810,9 @@ class mob_life_spark : public CreatureScript
 
                 if (_shockTimer <= diff)
                 {
-                    if (me->IsWithinMeleeRange(me->getVictim()))
+                    if (me->IsWithinMeleeRange(me->GetVictim()))
                     {
-                        DoCast(me->getVictim(), SPELL_SHOCK);
+                        DoCast(me->GetVictim(), SPELL_SHOCK);
                         _shockTimer = 12*IN_MILLISECONDS;
                     }
                 }
@@ -1002,7 +1002,7 @@ class spell_xt002_gravity_bomb_aura_target : public SpellScriptLoader
 
             void FilterTargets(std::list<WorldObject*>& targets)
             {
-                targets.remove_if(BombTargetSelector(GetCaster()->ToCreature(), GetCaster()->getVictim()));
+                targets.remove_if(BombTargetSelector(GetCaster()->ToCreature(), GetCaster()->GetVictim()));
 
                 if (targets.empty())
                     return;

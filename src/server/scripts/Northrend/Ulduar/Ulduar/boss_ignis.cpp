@@ -316,7 +316,7 @@ class boss_ignis : public CreatureScript
                             return;
                         case EVENT_SCORCH:
                             Talk(SAY_SCORCH);
-                            if (Unit* target = me->getVictim())
+                            if (Unit* target = me->GetVictim())
                                 me->SummonCreature(NPC_GROUND_SCORCH, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN, 45*IN_MILLISECONDS);
                             DoCast(SPELL_SCORCH);
                             events.ScheduleEvent(EVENT_SCORCH, 25*IN_MILLISECONDS);
@@ -404,7 +404,7 @@ class npc_iron_construct : public CreatureScript
                     me->AI()->DoZoneInCombat();
                     if (Creature* ignis = ObjectAccessor::GetCreature(*me, _instance->GetData64(BOSS_IGNIS)))
                     {
-                        me->AI()->AttackStart(ignis->getVictim());
+                        me->AI()->AttackStart(ignis->GetVictim());
                         ignis->CastSpell(ignis, SPELL_STRENGTH, true);
                     }
                 }
@@ -543,7 +543,7 @@ class spell_ignis_slag_pot : public SpellScriptLoader
 
             void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
-                if (GetTarget()->isAlive())
+                if (GetTarget()->IsAlive())
                     GetTarget()->CastSpell(GetTarget(), SPELL_SLAG_IMBUED, true);
             }
 

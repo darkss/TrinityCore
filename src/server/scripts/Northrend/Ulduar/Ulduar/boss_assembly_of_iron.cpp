@@ -205,7 +205,7 @@ void PostEncounterStuff(InstanceScript* inst)
     const Map::PlayerList& players = inst->instance->GetPlayers();
     for (Map::PlayerList::const_iterator it = players.begin(); it != players.end(); ++it)
     {
-        if (Player* p = it->getSource())
+        if (Player* p = it->GetSource())
             p->CombatStop(true);
     }
 
@@ -224,15 +224,15 @@ bool IsEncounterComplete(InstanceScript* instance, Creature* me)
         return false;
 
     if (Creature* boss = ObjectAccessor::GetCreature(*me, instance->GetData64(BOSS_STEELBREAKER)))
-        if (boss->isAlive())
+        if (boss->IsAlive())
             return false;
 
     if (Creature* boss = ObjectAccessor::GetCreature(*me, instance->GetData64(BOSS_BRUNDIR)))
-        if (boss->isAlive())
+        if (boss->IsAlive())
             return false;
 
     if (Creature* boss = ObjectAccessor::GetCreature(*me, instance->GetData64(BOSS_MOLGEIM)))
-        if (boss->isAlive())
+        if (boss->IsAlive())
             return false;
 
     return true;
@@ -244,21 +244,21 @@ void RespawnEncounter(InstanceScript* instance, Creature* me)
         return;
 
     if (Creature* boss = ObjectAccessor::GetCreature(*me, instance->GetData64(BOSS_STEELBREAKER)))
-        if (!boss->isAlive())
+        if (!boss->IsAlive())
         {
             boss->Respawn();
             boss->GetMotionMaster()->MoveTargetedHome();
         }
 
     if (Creature* boss = ObjectAccessor::GetCreature(*me, instance->GetData64(BOSS_BRUNDIR)))
-        if (!boss->isAlive())
+        if (!boss->IsAlive())
         {
             boss->Respawn();
             boss->GetMotionMaster()->MoveTargetedHome();
         }
 
     if (Creature* boss = ObjectAccessor::GetCreature(*me, instance->GetData64(BOSS_MOLGEIM)))
-        if (!boss->isAlive())
+        if (!boss->IsAlive())
         {
             boss->Respawn();
             boss->GetMotionMaster()->MoveTargetedHome();
@@ -275,7 +275,7 @@ void ResetEncounter(InstanceScript* instance, Creature* me)
 
         if (Creature* boss = ObjectAccessor::GetCreature(*me, guid))
         {
-            if (!boss->isAlive())
+            if (!boss->IsAlive())
             {
                 boss->Respawn();
                 boss->GetMotionMaster()->MoveTargetedHome();
@@ -294,15 +294,15 @@ void StartEncounter(InstanceScript* instance, Creature* caller)
     instance->SetBossState(BOSS_ASSEMBLY_OF_IRON, IN_PROGRESS);
 
     if (Creature* boss = ObjectAccessor::GetCreature(*caller, instance->GetData64(BOSS_STEELBREAKER)))
-        if (boss->isAlive() && caller->GetGUID()!=boss->GetGUID()) // Avoid redundant calls
+        if (boss->IsAlive() && caller->GetGUID()!=boss->GetGUID()) // Avoid redundant calls
             boss->SetInCombatWithZone();
 
     if (Creature* boss = ObjectAccessor::GetCreature(*caller, instance->GetData64(BOSS_BRUNDIR)))
-        if (boss->isAlive() && caller->GetGUID()!=boss->GetGUID()) // Avoid redundant calls
+        if (boss->IsAlive() && caller->GetGUID()!=boss->GetGUID()) // Avoid redundant calls
             boss->SetInCombatWithZone();
 
     if (Creature* boss = ObjectAccessor::GetCreature(*caller, instance->GetData64(BOSS_MOLGEIM)))
-        if (boss->isAlive() && caller->GetGUID()!=boss->GetGUID()) // Avoid redundant calls
+        if (boss->IsAlive() && caller->GetGUID()!=boss->GetGUID()) // Avoid redundant calls
             boss->SetInCombatWithZone();
 }
 
@@ -418,7 +418,7 @@ class boss_steelbreaker : public CreatureScript
                             charge->SetStackAmount(std::min<uint8>(2, _superChargedCnt));
                         break;
                     case SPELL_ELECTRICAL_CHARGE_TRIGGERED:
-                        if (!me->isInCombat())
+                        if (!me->IsInCombat())
                             me->RemoveAurasDueToSpell(SPELL_ELECTRICAL_CHARGE_TRIGGERED);
                         break;
                     default:
@@ -442,9 +442,9 @@ class boss_steelbreaker : public CreatureScript
                     Map::PlayerList const& Players = map->GetPlayers();
                     for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
                     {
-                        if (Player* player = itr->getSource())
+                        if (Player* player = itr->GetSource())
                         {
-                            if (player->isDead() || player->HasAura(SPELL_STATIC_DISRUPTION) || player->isGameMaster())
+                            if (player->isDead() || player->HasAura(SPELL_STATIC_DISRUPTION) || player->IsGameMaster())
                                 continue;
 
                             float Distance = player->GetDistance(me->GetPositionX(), me->GetPositionY(), me->GetPositionZ());
@@ -494,7 +494,7 @@ class boss_steelbreaker : public CreatureScript
                             DoCast(SPELL_BERSERK);
                             return;
                         case EVENT_FUSION_PUNCH:
-                            if (me->IsWithinMeleeRange(me->getVictim()))
+                            if (me->IsWithinMeleeRange(me->GetVictim()))
                                 DoCastVictim(SPELL_FUSION_PUNCH);
                             events.ScheduleEvent(EVENT_FUSION_PUNCH, urand(13*IN_MILLISECONDS, 22*IN_MILLISECONDS));
                             return;
@@ -504,7 +504,7 @@ class boss_steelbreaker : public CreatureScript
                             events.ScheduleEvent(EVENT_STATIC_DISRUPTION, urand(20*IN_MILLISECONDS, 25*IN_MILLISECONDS));
                             return;
                         case EVENT_OVERWHELMING_POWER:
-                            if (me->getVictim() && !me->getVictim()->HasAura(SPELL_OVERWHELMING_POWER))
+                            if (me->GetVictim() && !me->GetVictim()->HasAura(SPELL_OVERWHELMING_POWER))
                             {
                                 Talk(SAY_STEELBREAKER_POWER);
                                 DoCastVictim(SPELL_OVERWHELMING_POWER);
@@ -818,7 +818,7 @@ class mob_lightning_elemental : public CreatureScript
                 if (!UpdateVictim())
                     return;
 
-                if (me->IsWithinMeleeRange(me->getVictim()) && !_castDone)
+                if (me->IsWithinMeleeRange(me->GetVictim()) && !_castDone)
                 {
                     me->CastSpell(me, SPELL_LIGHTNING_BLAST, true);
                     me->DespawnOrUnsummon(0.5*IN_MILLISECONDS);
@@ -1135,13 +1135,13 @@ class boss_stormcaller_brundir : public CreatureScript
                             me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_ATTACK_ME, false);
                             me->RemoveUnitMovementFlag(MOVEMENTFLAG_DISABLE_GRAVITY);
                             me->SendMovementFlagUpdate();
-                            DoStartMovement(me->getVictim());
+                            DoStartMovement(me->GetVictim());
                             me->getThreatManager().resetAllAggro();
                             events.ScheduleEvent(EVENT_LIGHTNING_TENDRILS_START, urand(40*IN_MILLISECONDS, 80*IN_MILLISECONDS));
                             events.CancelEvent(EVENT_MOVE_POSITION);
                             return;
                         case EVENT_MOVE_POSITION:
-                            if (me->IsWithinMeleeRange(me->getVictim()))
+                            if (me->IsWithinMeleeRange(me->GetVictim()))
                             {
                                 float x = frand(-25.0f, 25.0f);
                                 float y = frand(-25.0f, 25.0f);

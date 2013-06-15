@@ -102,12 +102,12 @@ void AggroAllPlayers(Creature* pTemp)
 
     for (Map::PlayerList::const_iterator i = PlList.begin(); i != PlList.end(); ++i)
     {
-        if(Player* player = i->getSource())
+        if(Player* player = i->GetSource())
         {
-            if(player->isGameMaster())
+            if(player->IsGameMaster())
                continue;
 
-            if(player->isAlive())
+            if(player->IsAlive())
             {
                pTemp->RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_IMMUNE_TO_PC);
                pTemp->SetReactState(REACT_AGGRESSIVE);
@@ -305,8 +305,8 @@ class generic_vehicleAI_toc5 : public CreatureScript
                 {
                     for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                     {
-                        Player* player = itr->getSource();
-                        if (player && !player->isGameMaster() && player->isAlive())
+                        Player* player = itr->GetSource();
+                        if (player && !player->IsGameMaster() && player->IsAlive())
                         {
                             // Handle combat variable
                             if (combat)
@@ -364,7 +364,7 @@ class generic_vehicleAI_toc5 : public CreatureScript
                 Map::PlayerList const &players = pMap->GetPlayers();
                 for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                 {
-                   if(itr->getSource() && itr->getSource()->isAlive() && !itr->getSource()->isGameMaster())
+                   if(itr->GetSource() && itr->GetSource()->IsAlive() && !itr->GetSource()->IsGameMaster())
                       return true;
                 }
             }
@@ -467,8 +467,8 @@ class generic_vehicleAI_toc5 : public CreatureScript
 
             if (uiThrustTimer <= uiDiff)
             {
-                if (me->getVictim() && me->GetDistance(me->getVictim()) < 5.0f)
-                    DoCast(me->getVictim(), SPELL_THRUST);
+                if (me->GetVictim() && me->GetDistance(me->GetVictim()) < 5.0f)
+                    DoCast(me->GetVictim(), SPELL_THRUST);
 
                 uiThrustTimer = urand(8000, 14000);
             }
@@ -594,8 +594,8 @@ class boss_warrior_toc5 : public CreatureScript
                 {
                     for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                     {
-                        Player* player = itr->getSource();
-                        if (player && !player->isGameMaster() && me->IsInRange(player, 8.0f, 25.0f, false))
+                        Player* player = itr->GetSource();
+                        if (player && !player->IsGameMaster() && me->IsInRange(player, 8.0f, 25.0f, false))
                         {
                             DoResetThreat();
                             me->AddThreat(player, 5.0f);
@@ -1091,7 +1091,7 @@ class boss_hunter_toc5 : public CreatureScript
                 Map::PlayerList const &players = pMap->GetPlayers();
                 for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                 {
-                     if(itr->getSource() && itr->getSource()->isAlive() && !itr->getSource()->isGameMaster())
+                     if(itr->GetSource() && itr->GetSource()->IsAlive() && !itr->GetSource()->IsGameMaster())
                      return;
                 }
 
@@ -1167,7 +1167,7 @@ class boss_hunter_toc5 : public CreatureScript
 
             if (uiDisengageCooldown <= uiDiff)
             {
-                if (me->IsWithinDistInMap(me->getVictim(), 5) && uiDisengageCooldown == 0)
+                if (me->IsWithinDistInMap(me->GetVictim(), 5) && uiDisengageCooldown == 0)
                 {
                     DoCast(me, SPELL_DISENGAGE);
                     uiDisengageCooldown = 35000;
@@ -1217,8 +1217,8 @@ class boss_hunter_toc5 : public CreatureScript
                     {
                         for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                         {
-                            Player* player = itr->getSource();
-                            if (player && !player->isGameMaster() && me->IsInRange(player, 5.0f, 30.0f, false))
+                            Player* player = itr->GetSource();
+                            if (player && !player->IsGameMaster() && me->IsInRange(player, 5.0f, 30.0f, false))
                             {
                                 DoCast(target, SPELL_MULTI_SHOT);
                                 break;
@@ -1323,7 +1323,7 @@ class boss_rouge_toc5 : public CreatureScript
                 Map::PlayerList const &players = pMap->GetPlayers();
                 for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                 {
-                     if(itr->getSource() && itr->getSource()->isAlive() && !itr->getSource()->isGameMaster())
+                     if(itr->GetSource() && itr->GetSource()->IsAlive() && !itr->GetSource()->IsGameMaster())
                         return;
                 }
                 if(pInstance)
@@ -1397,7 +1397,7 @@ class boss_rouge_toc5 : public CreatureScript
 
             if (uiEviscerateTimer <= uiDiff)
             {
-                DoCast(me->getVictim(),DUNGEON_MODE(SPELL_EVISCERATE, SPELL_EVISCERATE_H));
+                DoCast(me->GetVictim(),DUNGEON_MODE(SPELL_EVISCERATE, SPELL_EVISCERATE_H));
                 uiEviscerateTimer = 12000;
             }
              else

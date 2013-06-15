@@ -328,7 +328,7 @@ class npc_steelforged_defender : public CreatureScript
                             break;
                         case EVENT_SUNDER_ARMOR:
                             DoCastVictim( SPELL_SUNDER_ARMOR);
-                            if (Unit* vic = me->getVictim())
+                            if (Unit* vic = me->GetVictim())
                                 if (Aura* sunder = vic->GetAura(SPELL_SUNDER_ARMOR))
                                     if (sunder->GetStackAmount() == 5)  // If stacks are maximized, we will take a longer delay.
                                     {
@@ -1551,7 +1551,7 @@ class npc_twilight_guardian : public CreatureScript
                             break;
                         case EVENT_GUARD_SUNDER_ARMOR:
                             DoCastVictim(SPELL_GUARD_SUNDER_ARMOR);
-                            if (Unit* vic = me->getVictim())
+                            if (Unit* vic = me->GetVictim())
                                 if (Aura* sunder = vic->GetAura(SPELL_GUARD_SUNDER_ARMOR))
                                     if (sunder->GetStackAmount() == 5)  // If stacks are maximized, we will take a longer delay.
                                     {
@@ -1766,7 +1766,7 @@ class npc_boomer_xp : public CreatureScript
                 if (!UpdateVictim())
                     return;
 
-                if (!_despawn && me->IsWithinMeleeRange(me->getVictim()))
+                if (!_despawn && me->IsWithinMeleeRange(me->GetVictim()))
                 {
                     _despawn = true;
                     me->CastSpell(me, SPELL_BOOM_BOT, true);

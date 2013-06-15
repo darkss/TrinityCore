@@ -648,13 +648,13 @@ class GetNearestPlayers : std::binary_function<std::list<Player*>&, Creature*, v
                 {
                     if (__distance != 0.0f) // Check range enabled if __distance is no 0.0f
                     {
-                        if (base->GetDistance2d(it->getSource()) <= __distance)
+                        if (base->GetDistance2d(it->GetSource()) <= __distance)
                         {
-                            listp.push_back(it->getSource());
+                            listp.push_back(it->GetSource());
                         }
                     }
                     else
-                        listp.push_back(it->getSource());
+                        listp.push_back(it->GetSource());
 
                 }
                 listp.sort(DistancePredicate(base, false, false));
@@ -670,7 +670,7 @@ struct InsaneCandidatePredicate : std::unary_function<Player*, bool>
 {
     bool operator()(Player* p)
     {
-        if ( p->isAlive() && !p->isGameMaster() && !p->HasAura(SPELL_SANITY) && !p->HasAura(SPELL_INSANE) )
+        if ( p->IsAlive() && !p->IsGameMaster() && !p->HasAura(SPELL_SANITY) && !p->HasAura(SPELL_INSANE) )
             return true;
         return false;
     }
@@ -690,8 +690,8 @@ class GetPlayersByCondition : std::unary_function<Creature*, void>
                     const Map::PlayerList& players = map->GetPlayers();
                     for (MapRefManager::const_iterator it = players.begin(); it != players.end(); ++it)
                     {
-                        if ( __pred(it->getSource()) )
-                            __plist.push_back(it->getSource());
+                        if ( __pred(it->GetSource()) )
+                            __plist.push_back(it->GetSource());
                     }
                 }
         }
@@ -707,7 +707,7 @@ class AllSaronitCreaturesInRange : std::unary_function<Unit*, bool>
         AllSaronitCreaturesInRange(const WorldObject* pObject, float fMaxRange) : m_pObject(pObject), m_fRange(fMaxRange) {}
         bool operator()(Unit* pUnit)
         {
-            if (IsSaronitEntry(pUnit->GetEntry()) && m_pObject->IsWithinDist(pUnit, m_fRange, false) && pUnit->isAlive())
+            if (IsSaronitEntry(pUnit->GetEntry()) && m_pObject->IsWithinDist(pUnit, m_fRange, false) && pUnit->IsAlive())
                 return true;
 
             return false;
@@ -902,7 +902,7 @@ class npc_yogg_saron_encounter_controller : public CreatureScript   // Should be
             {
                 if (_phase == PHASE_NONE)
                 {
-                    if (target && me->GetDistance2d(target) <= 40.0f && target->ToPlayer() && !target->ToPlayer()->isGameMaster() && me->IsWithinLOSInMap(target))
+                    if (target && me->GetDistance2d(target) <= 40.0f && target->ToPlayer() && !target->ToPlayer()->IsGameMaster() && me->IsWithinLOSInMap(target))
                     {
                         if (instance->GetBossState(BOSS_VEZAX) == DONE)
                         {
@@ -1050,7 +1050,7 @@ class npc_yogg_saron_encounter_controller : public CreatureScript   // Should be
                     }
                 }
 
-                if (!CheckBoundary(me->getVictim()))
+                if (!CheckBoundary(me->GetVictim()))
                     EnterEvadeMode();
             }
 
@@ -1231,8 +1231,8 @@ class npc_yogg_saron_encounter_controller : public CreatureScript   // Should be
                         Map::PlayerList const& players = me->GetMap()->GetPlayers();
                         if (!players.isEmpty())
                             for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
-                                if (Player* plr = itr->getSource())
-                                    if (plr->isAlive() && !plr->isGameMaster() && !plr->HasAura(SPELL_INSANE))
+                                if (Player* plr = itr->GetSource())
+                                    if (plr->IsAlive() && !plr->IsGameMaster() && !plr->HasAura(SPELL_INSANE))
                                         return true;
                     }
                 }
@@ -1243,7 +1243,7 @@ class npc_yogg_saron_encounter_controller : public CreatureScript   // Should be
             void ModifySanity(Player* target, int8 amount)  // TODO: Check if stack-amount-handling by Freyas Well works correctly
             {
                 if (target)
-                    if (target->isAlive())
+                    if (target->IsAlive())
                     {
                         int32 newamount;
                         if (Aura* aur = target->GetAura(SPELL_SANITY, me->GetGUID()))
@@ -1322,9 +1322,9 @@ class npc_yogg_saron_encounter_controller : public CreatureScript   // Should be
                         Map::PlayerList const& players = me->GetMap()->GetPlayers();
                         if (!players.isEmpty())
                             for(Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
-                                if (Player* player = itr->getSource())
+                                if (Player* player = itr->GetSource())
                                 {
-                                    if (player->isAlive())
+                                    if (player->IsAlive())
                                     {
                                         if (!remove)
                                         {
@@ -1875,7 +1875,7 @@ class boss_sara : public CreatureScript
                     }
 
                 // temporary
-                if (_phase == PHASE_NONE && me->isInCombat())
+                if (_phase == PHASE_NONE && me->IsInCombat())
                     EnterEvadeMode();
             }
 
@@ -1926,7 +1926,7 @@ class npc_ominous_cloud : public CreatureScript
             void MoveInLineOfSight(Unit* target)
             {
                 if (_instance && _instance->GetBossState(BOSS_YOGGSARON) == IN_PROGRESS)
-                    if (target && me->GetDistance2d(target) <= 9.f && target->ToPlayer() && !target->ToPlayer()->isGameMaster() && !target->HasAura(SPELL_FLASH_FREEZE))
+                    if (target && me->GetDistance2d(target) <= 9.f && target->ToPlayer() && !target->ToPlayer()->IsGameMaster() && !target->HasAura(SPELL_FLASH_FREEZE))
                         TriggerGuardianSpawn();
             }
 
@@ -2095,7 +2095,7 @@ class npc_yogg_saron_tentacle : public CreatureScript
             void MoveInLineOfSight(Unit* target)
             {
                 // TODO: Check if this does not lead to a target-selection-lock
-                if (target && (me->GetDistance2d(target) <= me->GetMeleeReach()) && target->ToPlayer() && !target->ToPlayer()->isGameMaster())
+                if (target && (me->GetDistance2d(target) <= me->GetMeleeReach()) && target->ToPlayer() && !target->ToPlayer()->IsGameMaster())
                     AttackStartNoMove(target);
             }
 
@@ -2304,8 +2304,8 @@ class boss_brain_of_yogg_saron : public CreatureScript
             {
                 if (Creature* ctrl = ObjectAccessor::GetCreature(*me, _instance->GetData64(NPC_YOGGSARON_CTRL)))
                 {
-                    if (ctrl->isInCombat())
-                        EnterCombat(ctrl->getVictim());
+                    if (ctrl->IsInCombat())
+                        EnterCombat(ctrl->GetVictim());
                 }
             }
 
@@ -2406,7 +2406,7 @@ class boss_yogg_saron : public CreatureScript
                 {
                     case ACTION_ENTER_COMBAT:
                         if (Creature* ctrl = ObjectAccessor::GetCreature(*me, _instance->GetData64(NPC_YOGGSARON_CTRL)))
-                            EnterCombat(ctrl->getVictim());
+                            EnterCombat(ctrl->GetVictim());
                         break;
                     case ACTION_APPLY_SHATTERED_ILLUSIONS:
                         me->AddAura(SPELL_SHATTERED_ILLUSIONS, me);
@@ -2734,7 +2734,7 @@ class npc_immortal_guardian : public CreatureScript
 
                 if (_drainLifeTimer < diff)
                 {
-                    DoCast(me->getVictim(), RAID_MODE(SPELL_DRAIN_LIFE_10, SPELL_DRAIN_LIFE_25));
+                    DoCast(me->GetVictim(), RAID_MODE(SPELL_DRAIN_LIFE_10, SPELL_DRAIN_LIFE_25));
                     _drainLifeTimer = 35*IN_MILLISECONDS;
                 }
                 else 
@@ -3276,7 +3276,7 @@ class spell_brain_link_periodic_dummy : public SpellScriptLoader
                         Map::PlayerList const &players = trigger->GetMap()->GetPlayers();
                         for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                         {
-                            if (Player* player = itr->getSource())
+                            if (Player* player = itr->GetSource())
                             {
                                 if (player->HasAura(SPELL_BRAIN_LINK) && player->GetGUID() != trigger->GetGUID())
                                 {
@@ -3354,7 +3354,7 @@ class spell_insane_death_effekt : public SpellScriptLoader
             void HandleEffectRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (Unit* target = GetTarget())
-                    if (target->ToPlayer() && target->isAlive())
+                    if (target->ToPlayer() && target->IsAlive())
                         target->DealDamage(target, target->GetHealth());
             }
 

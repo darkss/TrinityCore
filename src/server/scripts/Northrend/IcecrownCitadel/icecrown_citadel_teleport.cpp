@@ -61,7 +61,7 @@ class icecrown_citadel_teleport : public GameObjectScript
             if (!spell)
                 return false;
 
-            if (player->isInCombat())
+            if (player->IsInCombat())
             {
                 Spell::SendCastResult(player, spell, 0, SPELL_FAILED_AFFECTING_COMBAT);
                 return true;
@@ -81,7 +81,7 @@ class at_frozen_throne_teleport : public AreaTriggerScript
 
         bool OnTrigger(Player* player, AreaTriggerEntry const* /*areaTrigger*/)
         {
-            if (player->isInCombat())
+            if (player->IsInCombat())
             {
                 if (SpellInfo const* spell = sSpellMgr->GetSpellInfo(FROZEN_THRONE_TELEPORT))
                     Spell::SendCastResult(player, spell, 0, SPELL_FAILED_AFFECTING_COMBAT);

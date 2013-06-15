@@ -120,7 +120,7 @@ public:
 
             if (!players.isEmpty())
             {
-                if (Player* player = players.begin()->getSource())
+                if (Player* player = players.begin()->GetSource())
                     TeamInInstance = player->GetTeam();
             }
 
@@ -476,8 +476,8 @@ void HandleSpellOnPlayersInInstanceToC5(Unit* caller, uint32 spellId)
             return;
 
         for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
-             if (i->getSource() && i->getSource()->isAlive() && !i->getSource()->isGameMaster())
-                 caller->CastSpell(i->getSource(), spellId);
+             if (i->GetSource() && i->GetSource()->IsAlive() && !i->GetSource()->IsGameMaster())
+                 caller->CastSpell(i->GetSource(), spellId);
     }
 }
 

@@ -157,7 +157,7 @@ class npc_door_checker : public CreatureScript
             {
                 if (who->GetTypeId() == TYPEID_PLAYER)
                 {
-                    if (static_cast<Player*>(who)->isGameMaster())
+                    if (static_cast<Player*>(who)->IsGameMaster())
                         return;
 
                     if (!_begin)

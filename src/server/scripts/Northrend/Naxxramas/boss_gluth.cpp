@@ -123,7 +123,7 @@ public:
                 switch (eventId)
                 {
                     case EVENT_WOUND:
-                        DoCast(me->getVictim(), SPELL_MORTAL_WOUND);
+                        DoCast(me->GetVictim(), SPELL_MORTAL_WOUND);
                         events.ScheduleEvent(EVENT_WOUND, 10000);
                         break;
                     case EVENT_ENRAGE:

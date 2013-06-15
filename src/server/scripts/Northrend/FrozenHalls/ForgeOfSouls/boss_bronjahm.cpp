@@ -151,7 +151,7 @@ class boss_bronjahm : public CreatureScript
                             events.ScheduleEvent(EVENT_MAGIC_BANE, urand(8*IN_MILLISECONDS, 20*IN_MILLISECONDS));
                             return;
                         case EVENT_SHADOW_BOLT:
-                            if (!me->IsWithinMeleeRange(me->getVictim()))
+                            if (!me->IsWithinMeleeRange(me->GetVictim()))
                                 DoCastVictim(SPELL_SHADOW_BOLT);
                             events.ScheduleEvent(EVENT_SHADOW_BOLT, 2*IN_MILLISECONDS);
                             return;

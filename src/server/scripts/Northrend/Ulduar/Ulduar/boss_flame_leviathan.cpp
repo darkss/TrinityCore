@@ -407,7 +407,7 @@ class boss_flame_leviathan : public CreatureScript
             // Here: used for placing players
             void SetGUID(uint64 guid, int32 /*id*/ = 0)
             {
-                if (!me->isInCombat())
+                if (!me->IsInCombat())
                     return;
 
                 if (Player* passenger = ObjectAccessor::GetPlayer(*me, guid))
@@ -1627,7 +1627,7 @@ class npc_leviathan_player_vehicle : public CreatureScript
                 {
                     if (Creature* leviathan = ObjectAccessor::GetCreature(*me, instance->GetData64(BOSS_LEVIATHAN)))
                     {
-                        if (leviathan->isInCombat())
+                        if (leviathan->IsInCombat())
                         {
                             me->SetInCombatWith(leviathan);
                             me->AddThreat(leviathan, 1.0f);
